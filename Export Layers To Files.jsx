@@ -2,9 +2,10 @@
 // This script will export each layer in the document to a separate file.
 // Written by Naoki Hada
 // ZStrings and auto layout by Tom Ruark
+// Web friendly file naming by Chris Wilson
 
 /*
-@@@BUILDINFO@@@ Export Layers To Files.jsx 1.0.0.17
+@@@BUILDINFO@@@ Export Layers for the Web.jsx 1.0.0.17
 */
 
 /*
@@ -12,17 +13,18 @@
 // BEGIN__HARVEST_EXCEPTION_ZSTRING
 
 <javascriptresource>
-<name>$$$/JavaScripts/ExportLayersToFiles/Menu=Export Layers to Files...</name>
+<name>$$$/JavaScripts/ExportLayersForTheWeb/Menu=Export Layers for the Web...</name>
 <category>layers</category>
 <enableinfo>true</enableinfo>
 <eventid>6f1c2cf5-4a97-4e32-8f59-f5d7a087adef</eventid>
 <terminology><![CDATA[<< /Version 1 
                          /Events << 
-                          /6f1c2cf5-4a97-4e32-8f59-f5d7a087adef [($$$/JavaScripts/ExportLayersToFiles/Action=Export Layers to Files) /noDirectParam <<
+                          /6f1c2cf5-4a97-4e32-8f59-f5d7a087adef [($$$/JavaScripts/ExportLayersForTheWeb/Action=Export Layers for the Web) /noDirectParam <<
                            /message [($$$/Actions/Key/Message=Message) /char]
                            /destination [($$$/Actions/Key/Destination=Destination) /char]
                            /fileNamePrefix [($$$/Actions/Key/FileNamePrefix=Prefix) /char]
                            /visibleOnly [($$$/Actions/Key/CompsObject/UseVisibility=Visibility) /boolean]
+                           /webFriendlyNaming [($$$/Actions/Key/CompsObject/WebFriendlyNaming=Web Friendly Naming) /boolean]
                            /fileType  [($$$/Actions/Key/FileType=File Type) /integer]
                            /icc [($$$/Actions/Key/PDFGenericFormat/KeepProfile=Keep Profile) /boolean]
                            /jpegQuality [($$$/Actions/Key/JPEGQuality=JPEG Quality) /char]
@@ -63,48 +65,49 @@ $.localize = true;
 //=================================================================
 
 // UI strings to be localized
-var strTitle = localize("$$$/JavaScripts/ExportLayersToFiles/Title=Export Layers To Files");
-var strButtonRun = localize("$$$/JavaScripts/ExportLayersToFiles/Run=Run");
-var strButtonCancel = localize("$$$/JavaScripts/ExportLayersToFiles/Cancel=Cancel");
-var strHelpText = localize("$$$/JavaScripts/ExportLayersToFiles/Help=Please specify the format and location for saving each layer as a file.");
-var strLabelDestination = localize("$$$/JavaScripts/ExportLayersToFiles/Destination=Destination:");
-var strButtonBrowse = localize("$$$/JavaScripts/ExportLayersToFiles/Browse=&Browse...");
-var strLabelFileNamePrefix = localize("$$$/JavaScripts/ExportLayersToFiles/FileNamePrefix=File Name Prefix:");
-var strCheckboxVisibleOnly = localize("$$$/JavaScripts/ExportLayersToFiles/VisibleOnly=&Visible Layers Only");
-var strLabelFileType = localize("$$$/JavaScripts/ExportLayersToFiles/FileType=File Type:");
-var strCheckboxIncludeICCProfile = localize("$$$/JavaScripts/ExportLayersToFiles/IncludeICC=&Include ICC Profile");
-var strJPEGOptions = localize("$$$/JavaScripts/ExportLayersToFiles/JPEGOptions=JPEG Options:");
-var strLabelQuality = localize("$$$/JavaScripts/ExportLayersToFiles/Quality=Quality:");
-var strPSDOptions = localize("$$$/JavaScripts/ExportLayersToFiles/PSDOptions=PSD Options:");
-var strCheckboxMaximizeCompatibility = localize("$$$/JavaScripts/ExportLayersToFiles/Maximize=&Maximize Compatibility");
-var strTIFFOptions = localize("$$$/JavaScripts/ExportLayersToFiles/TIFFOptions=TIFF Options:");
-var strLabelImageCompression = localize("$$$/JavaScripts/ExportLayersToFiles/ImageCompression=Image Compression:");
-var strNone = localize("$$$/JavaScripts/ExportLayersToFiles/None=None");
-var strPDFOptions = localize("$$$/JavaScripts/ExportLayersToFiles/PDFOptions=PDF Options:");
-var strLabelEncoding = localize("$$$/JavaScripts/ExportLayersToFiles/Encoding=Encoding:");
-var strTargaOptions = localize("$$$/JavaScripts/ExportLayersToFiles/TargaOptions=Targa Options:");
-var strLabelDepth = localize("$$$/JavaScripts/ExportLayersToFiles/Depth=Depth:");
-var strRadiobutton16bit = localize("$$$/JavaScripts/ExportLayersToFiles/Bit16=16bit");
-var strRadiobutton24bit = localize("$$$/JavaScripts/ExportLayersToFiles/Bit24=24bit");
-var strRadiobutton32bit = localize("$$$/JavaScripts/ExportLayersToFiles/Bit32=32bit");
-var strBMPOptions = localize("$$$/JavaScripts/ExportLayersToFiles/BMPOptions=BMP Options:");
-var strAlertSpecifyDestination = localize("$$$/JavaScripts/ExportLayersToFiles/SpecifyDestination=Please specify destination.");
-var strAlertDestinationNotExist = localize("$$$/JavaScripts/ExportLayersToFiles/DestionationDoesNotExist=Destination does not exist.");
-var strTitleSelectDestination = localize("$$$/JavaScripts/ExportLayersToFiles/SelectDestination=Select Destination");
-var strAlertDocumentMustBeOpened = localize("$$$/JavaScripts/ExportLayersToFiles/OneDocument=You must have a document open to export!");
-var strAlertNeedMultipleLayers = localize("$$$/JavaScripts/ExportLayersToFiles/NoLayers=You need a document with multiple layers to export!");
-var strAlertWasSuccessful = localize("$$$/JavaScripts/ExportLayersToFiles/Success= was successful.");
-var strUnexpectedError = localize("$$$/JavaScripts/ExportLayersToFiles/Unexpected=Unexpected error");
-var strMessage = localize("$$$/JavaScripts/ExportLayersToFiles/Message=Export Layers To Files action settings");
-var stretQuality = localize( "$$$/locale_specific/JavaScripts/ExportLayersToFiles/ETQualityLength=30" );
-var stretDestination = localize( "$$$/locale_specific/JavaScripts/ExportLayersToFiles/ETDestinationLength=160" );
-var strddFileType = localize( "$$$/locale_specific/JavaScripts/ExportLayersToFiles/DDFileType=100" );
-var strpnlOptions = localize( "$$$/locale_specific/JavaScripts/ExportLayersToFiles/PNLOptions=100" );
-var strPNG8Options = localize("$$$/JavaScripts/ExportLayersToFiles/PNG8Options=PNG-8 Options:");
-var strCheckboxPNGTransparency = localize("$$$/JavaScripts/ExportLayersToFiles/Transparency=Transparency");
-var strCheckboxPNGInterlaced = localize("$$$/JavaScripts/ExportLayersToFiles/Interlaced=Interlaced");
-var strCheckboxPNGTrm = localize("$$$/JavaScripts/ExportLayersToFiles/Trim=Trim Layers");
-var strPNG24Options = localize("$$$/JavaScripts/ExportLayersToFiles/PNG24Options=PNG-24 Options:");
+var strTitle = localize("$$$/JavaScripts/ExportLayersForTheWeb/Title=Wahoo!\nI was able to export your layers for the web");
+var strButtonRun = localize("$$$/JavaScripts/ExportLayersForTheWeb/Run=Run");
+var strButtonCancel = localize("$$$/JavaScripts/ExportLayersForTheWeb/Cancel=Cancel");
+var strHelpText = localize("$$$/JavaScripts/ExportLayersForTheWeb/Help=Please specify the format and location for saving each layer as a file.");
+var strLabelDestination = localize("$$$/JavaScripts/ExportLayersForTheWeb/Destination=Destination:");
+var strButtonBrowse = localize("$$$/JavaScripts/ExportLayersForTheWeb/Browse=&Browse...");
+var strLabelFileNamePrefix = localize("$$$/JavaScripts/ExportLayersForTheWeb/FileNamePrefix=File Name Prefix:");
+var strCheckboxVisibleOnly = localize("$$$/JavaScripts/ExportLayersForTheWeb/VisibleOnly=&Visible Layers Only");
+var strCheckboxWebFriendlyNaming = localize("$$$/JavaScripts/ExportLayersForTheWeb/WebFriendlyNaming=&Web Friendly Naming");
+var strLabelFileType = localize("$$$/JavaScripts/ExportLayersForTheWeb/FileType=File Type:");
+var strCheckboxIncludeICCProfile = localize("$$$/JavaScripts/ExportLayersForTheWeb/IncludeICC=&Include ICC Profile");
+var strJPEGOptions = localize("$$$/JavaScripts/ExportLayersForTheWeb/JPEGOptions=JPEG Options:");
+var strLabelQuality = localize("$$$/JavaScripts/ExportLayersForTheWeb/Quality=Quality:");
+var strPSDOptions = localize("$$$/JavaScripts/ExportLayersForTheWeb/PSDOptions=PSD Options:");
+var strCheckboxMaximizeCompatibility = localize("$$$/JavaScripts/ExportLayersForTheWeb/Maximize=&Maximize Compatibility");
+var strTIFFOptions = localize("$$$/JavaScripts/ExportLayersForTheWeb/TIFFOptions=TIFF Options:");
+var strLabelImageCompression = localize("$$$/JavaScripts/ExportLayersForTheWeb/ImageCompression=Image Compression:");
+var strNone = localize("$$$/JavaScripts/ExportLayersForTheWeb/None=None");
+var strPDFOptions = localize("$$$/JavaScripts/ExportLayersForTheWeb/PDFOptions=PDF Options:");
+var strLabelEncoding = localize("$$$/JavaScripts/ExportLayersForTheWeb/Encoding=Encoding:");
+var strTargaOptions = localize("$$$/JavaScripts/ExportLayersForTheWeb/TargaOptions=Targa Options:");
+var strLabelDepth = localize("$$$/JavaScripts/ExportLayersForTheWeb/Depth=Depth:");
+var strRadiobutton16bit = localize("$$$/JavaScripts/ExportLayersForTheWeb/Bit16=16bit");
+var strRadiobutton24bit = localize("$$$/JavaScripts/ExportLayersForTheWeb/Bit24=24bit");
+var strRadiobutton32bit = localize("$$$/JavaScripts/ExportLayersForTheWeb/Bit32=32bit");
+var strBMPOptions = localize("$$$/JavaScripts/ExportLayersForTheWeb/BMPOptions=BMP Options:");
+var strAlertSpecifyDestination = localize("$$$/JavaScripts/ExportLayersForTheWeb/SpecifyDestination=Please specify destination.");
+var strAlertDestinationNotExist = localize("$$$/JavaScripts/ExportLayersForTheWeb/DestionationDoesNotExist=Destination does not exist.");
+var strTitleSelectDestination = localize("$$$/JavaScripts/ExportLayersForTheWeb/SelectDestination=Select Destination");
+var strAlertDocumentMustBeOpened = localize("$$$/JavaScripts/ExportLayersForTheWeb/OneDocument=You must have a document open to export!");
+var strAlertNeedMultipleLayers = localize("$$$/JavaScripts/ExportLayersForTheWeb/NoLayers=You need a document with multiple layers to export!");
+var strAlertWasSuccessful = localize("$$$/JavaScripts/ExportLayersForTheWeb/Success= successfully, your now a ROCK STAR!");
+var strUnexpectedError = localize("$$$/JavaScripts/ExportLayersForTheWeb/Unexpected=Unexpected error");
+var strMessage = localize("$$$/JavaScripts/ExportLayersForTheWeb/Message=Export Layers To Files action settings");
+var stretQuality = localize( "$$$/locale_specific/JavaScripts/ExportLayersForTheWeb/ETQualityLength=30" );
+var stretDestination = localize( "$$$/locale_specific/JavaScripts/ExportLayersForTheWeb/ETDestinationLength=160" );
+var strddFileType = localize( "$$$/locale_specific/JavaScripts/ExportLayersForTheWeb/DDFileType=100" );
+var strpnlOptions = localize( "$$$/locale_specific/JavaScripts/ExportLayersForTheWeb/PNLOptions=100" );
+var strPNG8Options = localize("$$$/JavaScripts/ExportLayersForTheWeb/PNG8Options=PNG-8 Options:");
+var strCheckboxPNGTransparency = localize("$$$/JavaScripts/ExportLayersForTheWeb/Transparency=Transparency");
+var strCheckboxPNGInterlaced = localize("$$$/JavaScripts/ExportLayersForTheWeb/Interlaced=Interlaced");
+var strCheckboxPNGTrm = localize("$$$/JavaScripts/ExportLayersForTheWeb/Trim=Trim Layers");
+var strPNG24Options = localize("$$$/JavaScripts/ExportLayersForTheWeb/PNG24Options=PNG-24 Options:");
 
 // the drop down list indexes for file type
 var bmpIndex = 0; 
@@ -294,6 +297,9 @@ function settingDialog(exportInfo) {
 	// -- the fifth line in the dialog
     dlgMain.cbVisible = dlgMain.grpTopLeft.add("checkbox", undefined, strCheckboxVisibleOnly);
     dlgMain.cbVisible.value = exportInfo.visibleOnly;
+    
+    dlgMain.cbWFN = dlgMain.grpTopLeft.add("checkbox", undefined, strCheckboxWebFriendlyNaming);
+    dlgMain.cbWFN.value = exportInfo.webFriendlyNaming;
 
 	// -- the sixth line is the panel
     dlgMain.pnlFileType = dlgMain.grpTopLeft.add("panel", undefined, strLabelFileType);
@@ -587,6 +593,7 @@ function settingDialog(exportInfo) {
     exportInfo.destination = dlgMain.etDestination.text;
     exportInfo.fileNamePrefix = dlgMain.etFileNamePrefix.text;
     exportInfo.visibleOnly = dlgMain.cbVisible.value;
+    exportInfo.webFriendlyNaming = dlgMain.cbWFN.value;
     exportInfo.fileType = dlgMain.ddFileType.selection.index;
     exportInfo.icc = dlgMain.cbIcc.value;
     exportInfo.jpegQuality = dlgMain.pnlFileType.pnlOptions.grpJPEGOptions.etQuality.text;
@@ -669,6 +676,7 @@ function initExportInfo(exportInfo) {
     exportInfo.destination = new String("");
     exportInfo.fileNamePrefix = new String("untitled_");
     exportInfo.visibleOnly = false;
+    exportInfo.webFriendlyNaming = false;
     exportInfo.fileType = psdIndex;
     exportInfo.icc = true;
     exportInfo.jpegQuality = 8;
@@ -1018,9 +1026,14 @@ function exportChildren(dupObj, orgObj, exportInfo, dupDocRef, fileNamePrefix) {
             duppedDocumentTmp.flatten();
         }
         var fileNameBody = fileNamePrefix;
-        fileNameBody += "_" + zeroSuppress(i, 4);
-        fileNameBody += "_" + layerName;
-        fileNameBody = fileNameBody.replace(/[:\/\\*\?\"\<\>\|]/g, "_");  // '/\:*?"<>|' -> '_'
+        // fileNameBody += "_" + zeroSuppress(i, 4); // Commented out by Chris Wilson on 06-11-2014
+        // fileNameBody += "_" + layerName; // Commented out by Chris Wilson on 06-11-2014
+        fileNameBody += layerName;
+        fileNameBody = fileNameBody.replace(/[:\,\.\/\\*\?\"\<\>\|]/g, null);
+        if (exportInfo.webFriendlyNaming) {
+            fileNameBody = fileNameBody.replace(/[\'\(\)]/g, null);
+            fileNameBody = fileNameBody.replace(/[\s+\_]/g, '-').toLowerCase();        
+        }
         if (fileNameBody.length > 120) {
 			fileNameBody = fileNameBody.substring(0,120);
 		}
