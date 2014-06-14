@@ -1029,9 +1029,9 @@ function exportChildren(dupObj, orgObj, exportInfo, dupDocRef, fileNamePrefix) {
         // fileNameBody += "_" + zeroSuppress(i, 4); // Commented out by Chris Wilson on 06-11-2014
         // fileNameBody += "_" + layerName; // Commented out by Chris Wilson on 06-11-2014
         fileNameBody += layerName;
-        fileNameBody = fileNameBody.replace(/[:\,\.\/\\*\?\"\<\>\|]/g, null);
+        fileNameBody = fileNameBody.replace(/[:\,\.\/\\*\?\"\<\>\|]/g, '');
         if (exportInfo.webFriendlyNaming) {
-            fileNameBody = fileNameBody.replace(/[\'\(\)]/g, null);
+            fileNameBody = fileNameBody.replace(/[\'\(\)]/g, '');
             fileNameBody = fileNameBody.replace(/[\s+\_]/g, '-').toLowerCase();        
         }
         if (fileNameBody.length > 120) {
